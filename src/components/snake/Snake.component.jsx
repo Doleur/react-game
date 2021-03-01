@@ -3,29 +3,31 @@ import * as S from './styled.component';
 import { createSnake } from '../../utilities/createSnake';
 import { moveSnake } from '../../utilities/moveSnake';
 import { handleKeyDown } from '../../utilities/handleKeyDown';
-import { checkTarget } from '../../utilities/checkTarget';
+import { checkGameOver } from '../../utilities/checkGameOver';
+import { checkSnakeEatFood } from '../../utilities/checkSnakeEatFood';
 
 const Snake = ({ parameters, spawnFoodPos }) => {
   const [snakeBlocksPositions, updateSnakeBlocksPositions] = useState(
-    createSnake()
+    createSnake('right')
   );
   const [foodPos, updateFoodPos] = useState(spawnFoodPos);
-  const [isGameOver, updateIsGameOver] = useState(false);
   const [moveDirection, updateMoveDirection] = useState('right');
+
   const handleKey = (event) => {
     handleKeyDown(event, moveDirection, updateMoveDirection);
   };
   useEffect(() => {
-    if (isGameOver) {
+    if (checkGameOver(snakeBlocksPositions, foodPos, updateFoodPos)) {
       return;
     }
     window.addEventListener('keydown', handleKey);
     setTimeout(() => {
-      updateIsGameOver(
-        checkTarget(snakeBlocksPositions, foodPos, updateFoodPos)
-      );
+      let newSnakeBlocksPositions = [...snakeBlocksPositions];
+      if (checkSnakeEatFood(snakeBlocksPositions, foodPos, updateFoodPos)) {
+        newSnakeBlocksPositions.push(foodPos);
+      }
       moveSnake(
-        snakeBlocksPositions,
+        newSnakeBlocksPositions,
         updateSnakeBlocksPositions,
         moveDirection
       );
@@ -42,10 +44,10 @@ const Snake = ({ parameters, spawnFoodPos }) => {
           blockPosition={blockPosition}
           parameters={parameters}
           isHead={index === 0}
-          isJopa={snakeBlocksPositions.length - 1 === index}
+          isEnd={snakeBlocksPositions.length - 1 === index}
         />
       ))}
-      <S.SnakeBlock blockPosition={foodPos} parameters={parameters} />
+      <S.FoodBlock blockPosition={foodPos} parameters={parameters} />
     </>
   );
 };

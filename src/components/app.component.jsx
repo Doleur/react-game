@@ -3,14 +3,10 @@ import * as S from './styled.component';
 import Snake from './snake/Snake.component';
 import { parameters } from '../constants/constants';
 import { spawnFood } from '../utilities/spawnFood';
+import { createSnake } from '../utilities/createSnake';
 
 const App = () => {
-  let spawnFoodPos = spawnFood([
-    {
-      leftPos: parameters.width / 2,
-      topPos: parameters.height / 2
-    }
-  ]);
+  let spawnFoodPos = spawnFood(createSnake());
   return (
     <S.GameWrapper parameters={parameters}>
       <Snake parameters={parameters} spawnFoodPos={spawnFoodPos} />

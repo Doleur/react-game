@@ -61,6 +61,7 @@ export function moveSnake(
 
   let firstLeftPositionAfterHead = newSnakeBlocksPositions[0].leftPos;
   let firstTopPositionAfterHead = newSnakeBlocksPositions[0].topPos;
+  let firstDirectionAfterHead = moveDirection;
 
   switch (moveDirection) {
     case 'left':
@@ -89,12 +90,14 @@ export function moveSnake(
           ? 0
           : newSnakeBlocksPositions[0].topPos + parameters.snakeBlockSize;
   }
+  newSnakeBlocksPositions[0].direction = moveDirection;
 
   for (let i = 1; i < newSnakeBlocksPositions.length; i++) {
     let secondLeftPositionAfterHead = newSnakeBlocksPositions[i].leftPos;
     let secondTopPositionAfterHead = newSnakeBlocksPositions[i].topPos;
     newSnakeBlocksPositions[i].leftPos = firstLeftPositionAfterHead;
     newSnakeBlocksPositions[i].topPos = firstTopPositionAfterHead;
+    newSnakeBlocksPositions[i].direction = firstDirectionAfterHead;
     firstLeftPositionAfterHead = secondLeftPositionAfterHead;
     firstTopPositionAfterHead = secondTopPositionAfterHead;
   }
