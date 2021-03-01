@@ -9,10 +9,10 @@ export const SnakeBlock = styled.div.attrs((props) => ({
     background: props.isHead
       ? 'url(../../assets/img/snakeBody/' +
         props.blockPosition.direction +
-        '/head.png) 0% 0% / cover'
-      : props.isEnd
-      ? '#8DC73F'
-      : '#8DC73F'
+        '/head_' +
+        props.snakeTheme.numberTheme +
+        '.png) 0% 0% / cover'
+      : props.snakeTheme.colors[props.snakeTheme.numberTheme]
   }
 }))`
   position: absolute;

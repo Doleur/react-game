@@ -6,7 +6,7 @@ import { handleKeyDown } from '../../utilities/handleKeyDown';
 import { checkGameOver } from '../../utilities/checkGameOver';
 import { checkSnakeEatFood } from '../../utilities/checkSnakeEatFood';
 
-const Snake = ({ parameters, spawnFoodPos }) => {
+const Snake = ({ parameters, snakeTheme, spawnFoodPos }) => {
   const [snakeBlocksPositions, updateSnakeBlocksPositions] = useState(
     createSnake('right')
   );
@@ -43,6 +43,7 @@ const Snake = ({ parameters, spawnFoodPos }) => {
           key={index}
           blockPosition={blockPosition}
           parameters={parameters}
+          snakeTheme={snakeTheme}
           isHead={index === 0}
           isEnd={snakeBlocksPositions.length - 1 === index}
         />
