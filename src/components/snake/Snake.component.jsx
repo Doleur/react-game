@@ -5,19 +5,23 @@ import { moveSnake } from '../../utilities/moveSnake';
 import { handleKeyDown } from '../../utilities/handleKeyDown';
 import { checkGameOver } from '../../utilities/checkGameOver';
 import { checkSnakeEatFood } from '../../utilities/checkSnakeEatFood';
+import { checkBestScore } from '../../utilities/checkBestScore';
 
-const Snake = ({ parameters, snakeTheme, spawnFoodPos }) => {
+const Snake = ({ parameters, snakeTheme, spawnFoodPos, updateIsGameOver }) => {
   const [snakeBlocksPositions, updateSnakeBlocksPositions] = useState(
     createSnake('right')
   );
   const [foodPos, updateFoodPos] = useState(spawnFoodPos);
   const [moveDirection, updateMoveDirection] = useState('right');
+  // const [score, updateScore] = useState(0);
 
   const handleKey = (event) => {
     handleKeyDown(event, moveDirection, updateMoveDirection);
   };
   useEffect(() => {
     if (checkGameOver(snakeBlocksPositions, foodPos, updateFoodPos)) {
+      updateIsGameOver(true);
+      checkBestScore(parameters.score);
       return;
     }
     window.addEventListener('keydown', handleKey);
@@ -49,6 +53,7 @@ const Snake = ({ parameters, snakeTheme, spawnFoodPos }) => {
         />
       ))}
       <S.FoodBlock blockPosition={foodPos} parameters={parameters} />
+      <S.Score>Score: {parameters.score} </S.Score>
     </>
   );
 };

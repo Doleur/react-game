@@ -3,7 +3,11 @@ export const parameters = {
   height: 600,
   startSnakeSize: 6,
   snakeBlockSize: 30,
-  isGameStart: false
+  score: 0
+};
+
+export const saveItem = {
+  bestScore: []
 };
 
 export const snakeTheme = {

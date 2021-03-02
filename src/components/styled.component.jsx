@@ -29,3 +29,11 @@ export const GameWrapper = styled.div`
   height: ${(props) => props.parameters.height}px;
   padding: 10px;
 `;
+
+export const Score = styled.div`
+  font-size: 40px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: rgb(71, 71, 71) 1px 1px 1px, rgb(71, 71, 71) -1px -1px 1px,
+    rgb(71, 71, 71) -1px 1px 1px, rgb(71, 71, 71) 1px -1px 1px;
+`;

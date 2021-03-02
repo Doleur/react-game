@@ -19,10 +19,6 @@ export const SnakeBlock = styled.div.attrs((props) => ({
   z-index: ${(props) => (props.isHead ? '5' : '0')};
 `;
 
-// 'url(../../assets/img/snakeBody/' +
-//         props.blockPosition.direction +
-//         '/end.png) 0% 0% / cover'
-
 export const FoodBlock = styled.div.attrs((props) => ({
   style: {
     width: props.parameters.snakeBlockSize + 'px',
@@ -33,4 +29,14 @@ export const FoodBlock = styled.div.attrs((props) => ({
 }))`
   position: absolute;
   background: url(../../assets/img/mouse.png) 0% 0% / cover;
+`;
+
+export const Score = styled.div`
+  position: absolute;
+  z-index: 10;
+  font-size: 30px;
+  font-weight: 500;
+  color: #ffffff;
+  text-shadow: rgb(71, 71, 71) 1px 1px 1px, rgb(71, 71, 71) -1px -1px 1px,
+    rgb(71, 71, 71) -1px 1px 1px, rgb(71, 71, 71) 1px -1px 1px;
 `;
