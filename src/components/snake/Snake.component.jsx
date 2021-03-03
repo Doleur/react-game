@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import useSound from 'use-sound';
 import * as S from './styled.component';
 import { createSnake } from '../../utilities/createSnake';
 import { moveSnake } from '../../utilities/moveSnake';
@@ -6,28 +7,46 @@ import { handleKeyDown } from '../../utilities/handleKeyDown';
 import { checkGameOver } from '../../utilities/checkGameOver';
 import { checkSnakeEatFood } from '../../utilities/checkSnakeEatFood';
 import { checkBestScore } from '../../utilities/checkBestScore';
+import { saveGame } from '../../utilities/saveGame';
+import { checkParameters } from '../../utilities/checkParameters';
 
-const Snake = ({ parameters, snakeTheme, spawnFoodPos, updateIsGameOver }) => {
+const Snake = ({
+  parameters,
+  snakeColor,
+  spawnFoodPos,
+  updateIsGameOver,
+  saveItem,
+  settings
+}) => {
   const [snakeBlocksPositions, updateSnakeBlocksPositions] = useState(
     createSnake('right')
   );
   const [foodPos, updateFoodPos] = useState(spawnFoodPos);
   const [moveDirection, updateMoveDirection] = useState('right');
-  // const [score, updateScore] = useState(0);
+  const [isSnakeSound, updateIsSnakeSound] = useState('true');
+
+  const [play] = useSound('../../assets/audio/am.mp3', {
+    volume: 0.5
+  });
 
   const handleKey = (event) => {
     handleKeyDown(event, moveDirection, updateMoveDirection);
   };
   useEffect(() => {
+    checkParameters();
     if (checkGameOver(snakeBlocksPositions, foodPos, updateFoodPos)) {
       updateIsGameOver(true);
       checkBestScore(parameters.score);
+      saveGame();
       return;
     }
     window.addEventListener('keydown', handleKey);
     setTimeout(() => {
       let newSnakeBlocksPositions = [...snakeBlocksPositions];
       if (checkSnakeEatFood(snakeBlocksPositions, foodPos, updateFoodPos)) {
+        if (isSnakeSound) {
+          play();
+        }
         newSnakeBlocksPositions.push(foodPos);
       }
       moveSnake(
@@ -35,7 +54,8 @@ const Snake = ({ parameters, snakeTheme, spawnFoodPos, updateIsGameOver }) => {
         updateSnakeBlocksPositions,
         moveDirection
       );
-    }, 100);
+      saveGame();
+    }, settings.difficultyGame[saveItem.numberDifficultyGame]);
     return () => {
       window.removeEventListener('keydown', handleKey);
     };
@@ -47,13 +67,19 @@ const Snake = ({ parameters, snakeTheme, spawnFoodPos, updateIsGameOver }) => {
           key={index}
           blockPosition={blockPosition}
           parameters={parameters}
-          snakeTheme={snakeTheme}
+          snakeColor={snakeColor}
+          settings={settings}
+          saveItem={saveItem}
           isHead={index === 0}
           isEnd={snakeBlocksPositions.length - 1 === index}
         />
       ))}
       <S.FoodBlock blockPosition={foodPos} parameters={parameters} />
       <S.Score>Score: {parameters.score} </S.Score>
+      <S.SnakeSound
+        isSnakeSound={isSnakeSound}
+        onClick={() => updateIsSnakeSound(!isSnakeSound)}
+      />
     </>
   );
 };

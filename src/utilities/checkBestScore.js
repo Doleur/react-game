@@ -2,8 +2,8 @@ import { saveItem } from '../constants/constants';
 const numberOfBestScore = 10;
 
 export function checkBestScore(score) {
-  if (saveItem.bestScore.length > numberOfBestScore) {
-    if (saveItem.bestScore[9] > score) return;
+  if (saveItem.bestScore.length >= numberOfBestScore) {
+    if (saveItem.bestScore[9] >= score) return;
     saveItem.bestScore.pop();
   }
 
